@@ -46,7 +46,7 @@ function table.reduce(list, operator)
     return nil
   end
   local t = list
-  for i = 1, #t, 1 do
+  for i = 1, #t do
     if type(t[i]) == 'nil' then return nil end
     if not tonumber(t[i]) and type(t[i]) ~= 'boolean' then
       return 0 / 0
@@ -84,7 +84,7 @@ end
 function table.reverse(list)
   if type(list) ~= 'table' then return {} end
   local t = list
-  for i = 1, #t, 1 do
+  for i = 1, #t do
     if type(t[i]) == 'nil' then return t end
   end
   for i = #t, 1, -1 do
