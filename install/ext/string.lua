@@ -24,7 +24,6 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-
 local push = table.insert
 local concat = table.concat
 local pack = table.pack
@@ -55,6 +54,7 @@ function string.split(str, separator, limit)
   end
   local sPtt = noMagic(sp)
   local res = {}
+  str = ' '..str
   for e in str:gmatch('.-' .. sPtt) do
     local k = {}
     for f in e:gmatch(utf8.charpattern) do
@@ -65,6 +65,7 @@ function string.split(str, separator, limit)
     str = str:gsub(noMagic(e), '')
   end
   push(res, str)
+  res[1] = res[1]:sub(2)
   if limit == 0 then return res end
   return pack(unpack(res, 1, limit))
 end
