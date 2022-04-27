@@ -51,6 +51,5 @@ function table.reduce(list, operator) end
 ---    { '8', '.4', 6.3, true, false } => { false, true, 6.3, '.4', '8' }
 ---     { '8', '.4', 6.3, nil, false } => { '8', '.4', 6.3, nil, false }
 ---@return table
----@nodiscard
 ---[Online documentation](https://github.com/joseliojunior/lua-extensions/tree/main/doc#table-reverse)
 function table.reverse(list) end
