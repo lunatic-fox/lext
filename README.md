@@ -4,7 +4,9 @@
 # Lua extensions &nbsp;![](https://gh-tags.vercel.app/api?lang=lua)
 
 ## Current extensions list
+* [**string.slice**](./doc/README.md#string-slice)
 * [**string.split**](./doc/README.md#string-split)
+* [**string.replace**](./doc/README.md#string-replace)
 * [**table.reduce**](./doc/README.md#table-reduce)
 * [**table.reverse**](./doc/README.md#table-reverse)
 
