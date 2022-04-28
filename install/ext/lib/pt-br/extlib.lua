@@ -28,7 +28,7 @@
 ---@param str string Uma string a ser dividida.
 ---@param separator? string Uma string que identifique caractere ou caracteres a serem usados na separação da string. Se omitido, uma tabela contendo um único elemento com toda a string é retornado.
 ---@param limit? number Um valor usado para limitar o número de elementos retornados na tabela.
----@return table
+---@return {join:fun(separator?:string):string}
 ---@nodiscard
 ---[Documentação online em inglês](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-split)
 function string.split(str, separator, limit) end
