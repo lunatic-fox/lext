@@ -39,19 +39,6 @@ local function noMagic(s)
   return concat(t)
 end
 
-local function chain(tstr)
-  local def = {
-    join = function(sep)
-      sep = sep and tostring(sep) or ','
-      return table.concat(tstr, sep)
-    end
-  }
-  for i = 1, #tstr do
-    table.insert(def, tstr[i])
-  end
-  return def
-end
-
 function string.split(str, separator, limit)
   if type(str) ~= 'string' then return {} end
   if type(separator) == 'nil' then return { str } end
@@ -63,11 +50,11 @@ function string.split(str, separator, limit)
       push(spread, e)
     end
     if limit > 0 then return pack(unpack(spread, 1, limit)) end
-    return chain(spread)
+    return spread
   end
   local sPtt = noMagic(sp)
   local res = {}
-  str = ' ' .. str
+  str = ' '..str
   for e in str:gmatch('.-' .. sPtt) do
     local k = {}
     for f in e:gmatch(utf8.charpattern) do
@@ -79,6 +66,6 @@ function string.split(str, separator, limit)
   end
   push(res, str)
   res[1] = res[1]:sub(2)
-  if limit == 0 then return chain(res) end
-  return chain(pack(unpack(res, 1, limit)))
+  if limit == 0 then return res end
+  return pack(unpack(res, 1, limit))
 end
