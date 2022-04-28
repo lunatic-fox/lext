@@ -29,11 +29,13 @@ local concat = table.concat
 local pack = table.pack
 local unpack = table.unpack
 
+local typeError = function(msg) return '\n\n>\tTypeError: ' .. msg .. '\n' end
+
 local function noMagic(s)
-  local sym <const> = { '(', ')', '.', '%', '+', '-', '*', '?', '[', '^', '$' }
+  local SYM <const> = { '(', ')', '.', '%', '+', '-', '*', '?', '[', '^', '$' }
   local t = {}
   for e in s:gmatch(utf8.charpattern) do
-    for _, f in pairs(sym) do e = e == f and '%' .. e or e end
+    for _, f in pairs(SYM) do e = e == f and '%' .. e or e end
     push(t, e)
   end
   return concat(t)
@@ -68,4 +70,30 @@ function string.split(str, separator, limit)
   res[1] = res[1]:sub(2)
   if limit == 0 then return res end
   return pack(unpack(res, 1, limit))
+end
+
+function string.replace(str, searchValue, replaceValue)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeError('"str" parameter must be a string!'))
+  end
+  if searchValue == nil or replaceValue == nil then return str end
+  searchValue = tostring(searchValue)
+  replaceValue = tostring(replaceValue)
+  str = str:split(searchValue)
+  str = concat(str, replaceValue)
+  return str
+end
+
+function string.slice(str, i, j)
+  if type(str) ~= 'string' then
+    return error(typeError('"str" parameter must be a string!'))
+  end
+  if i == 0 or i == nil then return str end
+  str = str:split('')
+  if i < 0 then
+    i = #str + i + 1
+    j = #str
+  end
+  str = concat(str, '', i, j)
+  return str
 end

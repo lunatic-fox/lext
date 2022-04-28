@@ -29,13 +29,15 @@ local remove = table.remove
 local pack = table.pack
 local unpack = table.unpack
 
+local typeError = function(msg) return '\n\n>\tTypeError: ' .. msg .. '\n' end
+
 function table.reduce(list, operator)
   if type(list) == 'table' and #list <= 0 then
-    return nil
+    return error('\n\n>\t"list" parameter can not be empty!\n')
   elseif type(list) ~= 'table' then
-    return nil
+    return error(typeError('"list" parameter must be a table!'))
   elseif operator == nil then
-    return nil
+    return error('\n\n>\t"operator" parameter must be "+", "-", "*", "/", "//", "%" or "^".\n')
   elseif  operator ~= '+'
       and operator ~= '-'
       and operator ~= '*'

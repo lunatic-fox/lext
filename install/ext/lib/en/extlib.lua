@@ -33,9 +33,32 @@
 ---[Online documentation](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-split)
 function string.split(str, separator, limit) end
 
+---Replaces text in a string, using a search string.
+---@param str string
+---@param searchValue? string A string to search for.
+---@param replaceValue? string A string containing the text to replace for every successful match of `searchValue`.
+---@return string
+---@nodiscard
+---[Online documentation](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-replace)
+function string.replace(str, searchValue, replaceValue) end
+
+---Returns a section of a string.
+---@param str string
+---@param i? number The index to the beginning of the specified portion of string.
+---@param j? number The end to the beginning of the specified portion of string. If this value is not specified, the substring continues to the end of string.
+---@return string
+---##    Examples
+---    ('fiancé!'):slice(3, 5) -> 'anc'
+---    ('fiancé!'):slice(3, 6) -> 'ancé'
+---    ('fiancé!'):slice(6, 6) -> 'é'
+---    ('fiancé!'):slice(5)    -> 'cé!'
+---@nodiscard
+---[Online documentation](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-slice)
+function string.slice(str, i, j) end
+
 ---Return the accumulated result of all elements in the table `list`.
 ---@param list table A table of numbers and/or number-like elements.
----    Examples
+---##    Examples
 ---    { '8', '.4', 6.3, true, false } => { 8, 0.4, 6.3, 1, 0 }
 ---     { '8', '.4', 6.3, nil, false } => nil
 ---              { 9, '.4', 'str', 5 } => nan
@@ -47,7 +70,7 @@ function table.reduce(list, operator) end
 
 ---Reverse the elements order of `list` table. This method mutates `list` and returns a reference to the same `list` table.
 ---@param list table A table of elements.
----    Examples
+---##    Examples
 ---    { '8', '.4', 6.3, true, false } => { false, true, 6.3, '.4', '8' }
 ---     { '8', '.4', 6.3, nil, false } => { '8', '.4', 6.3, nil, false }
 ---@return table

@@ -8,7 +8,9 @@
 ### Index
 * [Installation on Visual Studio Code](#installation)
 * [string](#string)
+  * [slice( )](#string-slice)
   * [split( )](#string-split)
+  * [replace( )](#string-replace)
 * [table](#table)
   * [reduce( )](#table-reduce)
   * [reverse( )](#table-reverse)
@@ -105,6 +107,77 @@ project
   string
 </h2>
 
+###  Require module
+~~~lua
+require 'ext.std'    -- all extension modules
+require 'ext.string' -- string module only
+~~~
+
+<h2 name="string-slice">
+  string.slice( )
+</h2>
+
+&nbsp; Returns a section of a string.
+
+####  Syntax
+~~~lua
+string.slice(str[, i [, j]])
+~~~
+
+####  Parameters
+`str` *&lt;string&gt;* - The string to be sliced.
+
+`i` *&lt;number?&gt;* - The index to the beginning of the specified portion of string.
+
+`j` *&lt;number?&gt;* - The end to the beginning of the specified portion of string. If this value is not specified, the substring continues to the end of string.
+
+### Usage
+
+#### UTF8 support comparison between `string.slice( )` and `string.sub( )`
+
+~~~lua
+require 'ext.std'
+
+local text = 'maçã'
+
+print(text:slice(3))     -- çã
+print(text:sub(3))       -- çã
+
+print(text:slice(3, 3))  -- ç
+print(text:sub(3, 3))    -- �
+
+print(text:slice(4))     -- ã
+print(text:sub(4))       -- �ã
+
+print(text:slice(2, 3))  -- aç
+print(text:sub(2, 3))    -- a�
+
+print(text:slice(-1))    -- ã
+print(text:sub(-1))      -- �
+~~~
+
+#### Less error possibilities
+~~~lua
+require 'ext.std'
+
+local text = 'maçã'
+
+print(text:slice())   -- maçã
+print(text:sub())     -- error
+
+print(string.slice()) -- type error
+print(string.sub())   -- error
+~~~
+
+#### Considerations
+&nbsp; This method is equivalent to `string.sub( )` of `Lua`, but with UTF8 support.
+
+<div align="right">
+
+[**back to top ▲**](#top)
+</div>
+
+
 <h2 name="string-split">
   string.split( )
 </h2>
@@ -117,19 +190,13 @@ string.split(str, separator [, limit])
 ~~~
 
 ####  Parameters
-`str` *&lt;string&gt;* - A string to be splitted.
+`str` *&lt;string&gt;* - The string to be splitted.
 
 `separator` *&lt;string&gt;* - A string that identifies character or characters to use in separating the string. If omitted, a single-element table containing the entire string is returned.
 
 `limit` *&lt;number?&gt;* - A value used to limit the number of elements returned in the table.
 
 ### Usage
-
-####  Require module
-~~~lua
-require 'ext.std'    -- all extension modules
-require 'ext.string' -- string module only
-~~~
 
 ####  Long syntax
 ~~~lua
@@ -255,11 +322,82 @@ m, a, ç, ã
 [**back to top ▲**](#top)
 </div>
 
+<h2 name="string-replace">
+  string.replace( )
+</h2>
+
+&nbsp; Replaces text in a string, using a search string.
+
+####  Syntax
+~~~lua
+string.replace(str[, searchValue [, replaceValue]])
+~~~
+
+####  Parameters
+`str` *&lt;string&gt;* - The string to be manipulated.
+
+`searchValue` *&lt;string?&gt;* - A string to search for.
+
+`replaceValue` *&lt;string?&gt;* - A string containing the text to replace for every successful match of `searchValue`.
+
+### Usage
+
+#### No magic symbols
+~~~lua
+require 'ext.std'
+
+local text = '[Box]'
+
+print(text:replace('[', '')) -- Box]
+print(text:gsub('[', ''))    -- error
+~~~
+
+#### Less error possibilities
+~~~lua
+require 'ext.std'
+
+local text = '[Box]'
+
+print(text:replace('x')) -- [Box]
+print(text:gsub('x'))    -- error
+
+print(text:replace())    -- [Box]
+print(text:gsub())       -- error
+
+print(string.replace())  -- type error
+print(string.gsub())     -- error
+
+text = 'Age: 50? -> ok'
+
+print(text:replace(50, 31))      -- Age: 31? -> ok
+print(text:gsub(50, 31))         -- Age: 31? -> ok
+
+print(text:replace('ok', true))  -- Age: 50? -> true
+print(text:gsub('ok', true))     -- error
+
+print(text:replace('ok', false)) -- Age: 50? -> false
+print(text:gsub('ok', false))    -- error
+~~~
+
+#### Considerations
+&nbsp; This method is equivalent to `string.gsub( )` of `Lua`, but without pattern search.
+
+<div align="right">
+
+[**back to top ▲**](#top)
+</div>
+
 ---
 
 <h2 name="table" align="center">
   table
 </h2>
+
+###  Require module
+~~~lua
+require 'ext.std'    -- all extension modules
+require 'ext.table'  -- table module only
+~~~
 
 <h2 name="table-reduce">
   table.reduce( )
@@ -291,12 +429,6 @@ table.reduce(list, operator)
 &nbsp;&nbsp;&nbsp; `^` &nbsp; exponentiation
 
 ### Usage
-
-####  Require module
-~~~lua
-require 'ext.std'    -- all extension modules
-require 'ext.table'  -- table module only
-~~~
 
 ####  Easy sum
 ~~~lua
@@ -429,12 +561,6 @@ table.reverse(list)
 `list` *&lt;table&gt;* - A table of elements.
 
 ### Usage
-
-####  Require module
-~~~lua
-require 'ext.std'    -- all extension modules
-require 'ext.table'  -- table module only
-~~~
 
 #### Regular use
 ~~~lua

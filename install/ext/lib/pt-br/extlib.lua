@@ -33,9 +33,32 @@
 ---[Documentação online em inglês](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-split)
 function string.split(str, separator, limit) end
 
+---Substitui um texto na string usando uma string de busca.
+---@param str string
+---@param searchValue? string Uma string de busca.
+---@param replaceValue? string Uma string contendo o texto a ser substituido a cada correspondência bem sucedida de `searchValue`.
+---@return string
+---@nodiscard
+---[Documentação online em inglês](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-replace)
+function string.replace(str, searchValue, replaceValue) end
+
+---Retorna uma seção da string.
+---@param str string
+---@param i? number O índice para o começo de uma porção especificada da string.
+---@param j? number O índice para o fim de uma porção especificada da string. Se não especificado a substring continua até o final da string.
+---@return string
+---##    Examplos
+---    ('fiancé!'):slice(3, 5) -> 'anc'
+---    ('fiancé!'):slice(3, 6) -> 'ancé'
+---    ('fiancé!'):slice(6, 6) -> 'é'
+---    ('fiancé!'):slice(5)    -> 'cé!'
+---@nodiscard
+---[Documentação online em inglês](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-slice)
+function string.slice(str, i, j) end
+
 ---Retorna o resultado acumulado de todos os elementos da tabela `list`.
 ---@param list table Uma tabela de números e/ou elementos semelhantes a números.
----    Examples
+---##    Examplos
 ---    { '8', '.4', 6.3, true, false } => { 8, 0.4, 6.3, 1, 0 }
 ---     { '8', '.4', 6.3, nil, false } => nil
 ---              { 9, '.4', 'str', 5 } => nan
@@ -47,7 +70,7 @@ function table.reduce(list, operator) end
 
 ---Inverte a ordem dos elementos da tabela `list`. Este método altera `list` e retorna uma referência para a mesma tabela `list`.
 ---@param list table Uma tabela de elementos.
----    Examples
+---##    Examplos
 ---    { '8', '.4', 6.3, true, false } => { false, true, 6.3, '.4', '8' }
 ---     { '8', '.4', 6.3, nil, false } => { '8', '.4', 6.3, nil, false }
 ---@return table
