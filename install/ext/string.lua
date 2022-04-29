@@ -24,12 +24,11 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-local LUA51 = 'Lua 5.1'
-local UTF8_CHARPATTERN = _VERSION == LUA51 and '[\\0-\127\194-\244][\128-\191]*' or '[\0-\x7F\xC2-\xF4][\x80-\xBF]*'
+local UTF8_CHARPATTERN = '[\\0-\127\194-\244][\128-\191]*'
 local push = table.insert
 local concat = table.concat
-local pack = _VERSION ~= LUA51 and table.pack or function(...) return { ... } end
-local unpack = _VERSION ~= LUA51 and table.unpack or unpack
+local pack = function(...) return { ... } end
+local unpack = _VERSION ~= 'Lua 5.1' and table.unpack or unpack
 
 local typeError = function(msg) return '\n\n>\tTypeError: ' .. msg .. '\n' end
 
@@ -58,7 +57,6 @@ function string.split(str, separator, limit)
   end
   local sPtt = noMagic(sp)
   local res = {}
-  str = ' ' .. str
   for e in str:gmatch('.-' .. sPtt) do
     local k = {}
     for f in e:gmatch(UTF8_CHARPATTERN) do
@@ -69,11 +67,6 @@ function string.split(str, separator, limit)
     str = str:gsub(noMagic(e), '')
   end
   push(res, str)
-  if _VERSION ~= LUA51 then
-    res[1] = res[1]:sub(2)
-  else
-    res[#res] = res[#res]:sub(2)
-  end
   if limit == 0 then return res end
   return pack(unpack(res, 1, limit))
 end
