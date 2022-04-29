@@ -26,7 +26,7 @@
 
 local push = table.insert
 local remove = table.remove
-local pack = _VERSION ~= 'Lua 5.1' and table.pack or function(...) return { ... } end
+local pack = function(...) return { ... } end
 local unpack = _VERSION ~= 'Lua 5.1' and table.unpack or unpack
 
 local typeError = function(msg) return '\n\n>\tTypeError: ' .. msg .. '\n' end
