@@ -7,6 +7,7 @@
 
 ### Index
 * [Installation on Visual Studio Code](#installation)
+* [Windows 7 or higher terminal UTF8 support](#win-uft8)
 * [string](#string)
   * [slice( )](#string-slice)
   * [split( )](#string-split)
@@ -103,14 +104,92 @@ project
 
 ---
 
+<h2 name="win-utf8" align="center">
+  Windows 7 or higher terminal UTF8 support
+</h2>
+
+&nbsp; When using Windows you may notice some issues in characters print. Here goes some ways to fix this.
+
+> *Problem*
+~~~lua
+require 'ext.std'
+
+local str = 'maçã'
+str = table.concat(str:split(''), ', ')
+
+print(str) -- m, a, ├º, ├ú
+~~~
+
+> *CMD fix*
+
+&nbsp; Open a new CMD window and type the command below to show UTF8 characters on terminal.
+
+~~~powershell
+chcp 65001
+~~~
+
+&nbsp; Now when you try to print in `Lua` you should receive this:
+
+~~~lua
+-- CMD
+require 'ext.std'
+
+local str = 'maçã'
+str = table.concat(str:split(''), ', ')
+
+print(str) -- m, a, ç, ã
+~~~
+
+
+> *Code Runner fix*
+
+&nbsp; In VS Code with [*Code Runner*](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner) you can run ` Ctrl + Alt + N ` to print the output as regular UTF8 string.
+~~~lua
+-- VS Code - Code Runner
+require 'ext.std'
+
+local str = 'maçã'
+str = table.concat(str:split(''), ', ')
+
+print(str) -- m, a, ç, ã
+~~~
+
+> *Temporary file fix*
+
+&nbsp; You can also write a temporary file to double-check.
+~~~lua
+require 'ext.std'
+
+local str = 'maçã'
+
+str = table.concat(str:split(''), ', ')
+
+io.open('./temp.txt', 'w')
+  :write(str)
+  :close()
+~~~
+
+> *temp.txt*
+~~~txt
+m, a, ç, ã
+~~~
+
+
+<div align="right">
+
+[**back to top ▲**](#top)
+</div>
+
+---
+
 <h2 name="string" align="center">
   string
 </h2>
 
 ###  Require module
 ~~~lua
-require 'ext.std'    -- all extension modules
-require 'ext.string' -- string module only
+require 'ext.std'    --> all extension modules
+require 'ext.string' --> string module only
 ~~~
 
 <h2 name="string-slice">
@@ -140,20 +219,29 @@ require 'ext.std'
 
 local text = 'maçã'
 
-print(text:slice(3))     -- çã
-print(text:sub(3))       -- çã
+print(text:slice(3))     --> çã
+print(text:sub(3))       --> çã
 
-print(text:slice(3, 3))  -- ç
-print(text:sub(3, 3))    -- �
+print(text:slice(3, 3))  --> ç
+print(text:sub(3, 3))    --> �
 
-print(text:slice(4))     -- ã
-print(text:sub(4))       -- �ã
+print(text:slice(4))     --> ã
+print(text:sub(4))       --> �ã
 
-print(text:slice(2, 3))  -- aç
-print(text:sub(2, 3))    -- a�
+print(text:slice(2, 3))  --> aç
+print(text:sub(2, 3))    --> a�
 
-print(text:slice(-1))    -- ã
-print(text:sub(-1))      -- �
+print(text:slice(-1))    --> ã
+print(text:sub(-1))      --> �
+
+
+local emoji = '😎🤩💀😺'
+
+print(emoji:slice(3)) --> 💀😺
+print(emoji:sub(3))   --> 🤩💀😺
+
+print(emoji:slice(1, 1)) --> 😎
+print(emoji:sub(1, 1))   --> �
 ~~~
 
 #### Less error possibilities
@@ -162,11 +250,11 @@ require 'ext.std'
 
 local text = 'maçã'
 
-print(text:slice())   -- maçã
-print(text:sub())     -- error
+print(text:slice())   --> maçã
+print(text:sub())     --> error
 
-print(string.slice()) -- type error
-print(string.sub())   -- error
+print(string.slice()) --> type error
+print(string.sub())   --> error
 ~~~
 
 #### Considerations
@@ -202,9 +290,9 @@ string.split(str, separator [, limit])
 ~~~lua
 require 'ext.std'
 
-local str = 'apple,tomato,strawberry'  -- <string>
-str = string.split(str, ',')           -- <table>
-str = table.concat(str, ' - ')         -- <string>
+local str = 'apple,tomato,strawberry'  --> <string>
+str = string.split(str, ',')           --> <table>
+str = table.concat(str, ' - ')         --> <string>
 
 print(str)  -- apple - tomato - strawberry
 ~~~
@@ -213,9 +301,9 @@ print(str)  -- apple - tomato - strawberry
 ~~~lua
 require 'ext.std'
 
-local str = 'apple,tomato,strawberry'  -- <string>
-str = str:split(',')                   -- <table>
-str = table.concat(str, ' * ')         -- <string>
+local str = 'apple,tomato,strawberry'  --> <string>
+str = str:split(',')                   --> <table>
+str = table.concat(str, ' * ')         --> <string>
 
 print(str) -- apple * tomato * strawberry
 ~~~
@@ -230,18 +318,18 @@ local strRU = 'яблоко'
 local strJP = 'りんご'
 local sym = '😶🤩😶😶🤩😶😶🤩😶'
 
-print(table.concat(strEN:split(''), ', '))     -- a, p, p, l, e
-print(table.concat(strPT:split(''), ', '))     -- m, a, ç, ã
-print(table.concat(strRU:split(''), ', '))     -- я, б, л, о, к, о
-print(table.concat(strJP:split(''), ', '))     -- り, ん, ご
-print(table.concat(sym:split('😶😶'), ', '))  -- 😶🤩,	🤩,	🤩😶
+print(table.concat(strEN:split(''), ', '))     --> a, p, p, l, e
+print(table.concat(strPT:split(''), ', '))     --> m, a, ç, ã
+print(table.concat(strRU:split(''), ', '))     --> я, б, л, о, к, о
+print(table.concat(strJP:split(''), ', '))     --> り, ん, ご
+print(table.concat(sym:split('😶😶'), ', '))  --> 😶🤩,	🤩,	🤩😶
 
 -- Using limit parameter
-print(table.concat(strEN:split('', 2), ', '))     -- a, p
-print(table.concat(strPT:split('', 3), ', '))     -- m, a, ç
-print(table.concat(strRU:split('', 5), ', '))     -- я, б, л, о, к
-print(table.concat(strJP:split('', 1), ', '))     -- り
-print(table.concat(sym:split('😶😶', 2), ', '))  -- 😶🤩,	🤩
+print(table.concat(strEN:split('', 2), ', '))     --> a, p
+print(table.concat(strPT:split('', 3), ', '))     --> m, a, ç
+print(table.concat(strRU:split('', 5), ', '))     --> я, б, л, о, к
+print(table.concat(strJP:split('', 1), ', '))     --> り
+print(table.concat(sym:split('😶😶', 2), ', '))  --> 😶🤩,	🤩
 ~~~
 
 ####  No magic symbols
@@ -250,8 +338,8 @@ require 'ext.std'
 
 local sym = '1%?[00^~@%?[^9043],%?kty567'
 
-print(table.concat(sym:split('%?')))  -- 1, [00^~@, [^9043],, kty567 }
-print(table.concat(sym:split()))      -- 1%?[00^~@%?[^9043],%?kty567 }
+print(table.concat(sym:split('%?')))  --> 1, [00^~@, [^9043],, kty567 }
+print(table.concat(sym:split()))      --> 1%?[00^~@%?[^9043],%?kty567 }
 ~~~
 
 ####  Big separator
@@ -260,7 +348,7 @@ require 'ext.std'
 
 local str = 'nópéróõmopóõpghnonóõppopkóp'
 
-print(table.concat(str:split('óõp'), ', '))  -- nópéróõmop, ghnon, popkóp
+print(table.concat(str:split('óõp'), ', '))  --> nópéróõmop, ghnon, popkóp
 ~~~
 
 ####  Using number and boolean as separator
@@ -270,52 +358,13 @@ require 'ext.std'
 local strN = 'n9493fj39fj49jf93jf93j4f93j9fj3'
 local strB = 'n949truefj49jf93jtruej4f93j9fj3'
 
-print(table.concat(strN:split(93), ', '))    -- n94, fj39fj49jf, jf, j4f, j9fj3
-print(table.concat(strB:split(true), ', '))  -- n949, fj49jf93j, j4f93j9fj3
+print(table.concat(strN:split(93), ', '))   --> n94, fj39fj49jf, jf, j4f, j9fj3
+print(table.concat(strB:split(true), ', ')) --> n949, fj49jf93j, j4f93j9fj3
 ~~~
 
 ####  Considerations
 &nbsp; This string method was based on `String.split( )` of `JavaScript`.
 
-&nbsp; If you are using Lua Interpreter to print UTF8 characters, you may notice some strange symbols like:
-~~~lua
--- Lua interpreter
-require 'ext.std'
-
-local str = 'maçã'
-str = table.concat(str:split(''), ', ')
-
-print(str) -- m, a, ├º, ├ú
-~~~
-
-&nbsp; In VS Code with [*Code Runner*](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner) you can run ` Ctrl + Alt + N ` to print the output as regular UTF8 string.
-~~~lua
--- VS Code - Code Runner
-require 'ext.std'
-
-local str = 'maçã'
-str = table.concat(str:split(''), ', ')
-
-print(str) -- m, a, ç, ã
-~~~
-
-&nbsp; You can also write a temporary file to double-check.
-~~~lua
-require 'ext.std'
-
-local str = 'maçã'
-
-str = table.concat(str:split(''), ', ')
-
-io.open('./temp.txt', 'w')
-  :write(str)
-  :close()
-~~~
-
-> *temp.txt*
-~~~txt
-m, a, ç, ã
-~~~
 
 <div align="right">
 
@@ -348,8 +397,8 @@ require 'ext.std'
 
 local text = '[Box]'
 
-print(text:replace('[', '')) -- Box]
-print(text:gsub('[', ''))    -- error
+print(text:replace('[', '')) --> Box]
+print(text:gsub('[', ''))    --> error
 ~~~
 
 #### Less error possibilities
@@ -358,25 +407,25 @@ require 'ext.std'
 
 local text = '[Box]'
 
-print(text:replace('x')) -- [Box]
-print(text:gsub('x'))    -- error
+print(text:replace('x')) --> [Box]
+print(text:gsub('x'))    --> error
 
-print(text:replace())    -- [Box]
-print(text:gsub())       -- error
+print(text:replace())    --> [Box]
+print(text:gsub())       --> error
 
-print(string.replace())  -- type error
-print(string.gsub())     -- error
+print(string.replace())  --> type error
+print(string.gsub())     --> error
 
 text = 'Age: 50? -> ok'
 
-print(text:replace(50, 31))      -- Age: 31? -> ok
-print(text:gsub(50, 31))         -- Age: 31? -> ok
+print(text:replace(50, 31))      --> Age: 31? -> ok
+print(text:gsub(50, 31))         --> Age: 31? -> ok
 
-print(text:replace('ok', true))  -- Age: 50? -> true
-print(text:gsub('ok', true))     -- error
+print(text:replace('ok', true))  --> Age: 50? -> true
+print(text:gsub('ok', true))     --> error
 
-print(text:replace('ok', false)) -- Age: 50? -> false
-print(text:gsub('ok', false))    -- error
+print(text:replace('ok', false)) --> Age: 50? -> false
+print(text:gsub('ok', false))    --> error
 ~~~
 
 #### Considerations
@@ -395,8 +444,8 @@ print(text:gsub('ok', false))    -- error
 
 ###  Require module
 ~~~lua
-require 'ext.std'    -- all extension modules
-require 'ext.table'  -- table module only
+require 'ext.std'    --> all extension modules
+require 'ext.table'  --> table module only
 ~~~
 
 <h2 name="table-reduce">
@@ -435,15 +484,15 @@ table.reduce(list, operator)
 require 'ext.std'
 
 local list = { 4, 2, 3, 1, 9 }
-print(table.reduce(list, '+')) -- 19
+print(table.reduce(list, '+')) --> 19
 
 -- is equivalent to
 local a = list[1] + list[2] + list[3] + list[4] + list[5]
-print(a) -- 19
+print(a) --> 19
 
 -- is equivalent to
 local b = 4 + 2 + 3 + 1 + 9
-print(b) -- 19
+print(b) --> 19
 ~~~
 
 ####  All operators
@@ -452,13 +501,13 @@ require 'ext.std'
 
 local list = { 2, 2, 2 }
 
-print(table.reduce(list, '+'))  -- 2 + 2 + 2 = 6
-print(table.reduce(list, '-'))  -- 2 - 2 - 2 = -2
-print(table.reduce(list, '*'))  -- 2 * 2 * 2 = 8
-print(table.reduce(list, '/'))  -- 2 / 2 / 2 = 0.5
-print(table.reduce(list, '//')) -- 2 // 2 // 2 = 0
-print(table.reduce(list, '^'))  -- 2 ^ 2 ^ 2 = 16.0
-print(table.reduce(list, '%'))  -- 2 % 2 % 2 = 0
+print(table.reduce(list, '+'))  --> 2 + 2 + 2 = 6
+print(table.reduce(list, '-'))  --> 2 - 2 - 2 = -2
+print(table.reduce(list, '*'))  --> 2 * 2 * 2 = 8
+print(table.reduce(list, '/'))  --> 2 / 2 / 2 = 0.5
+print(table.reduce(list, '//')) --> 2 // 2 // 2 = 0
+print(table.reduce(list, '^'))  --> 2 ^ 2 ^ 2 = 16.0
+print(table.reduce(list, '%'))  --> 2 % 2 % 2 = 0
 ~~~
 
 ####  Table of numbers
@@ -467,13 +516,13 @@ require 'ext.std'
 
 local list = { 1, 2, 3, 4, 5, 6, 7, 8, 9 }
 
-print(table.reduce(list, '+'))  -- 45
-print(table.reduce(list, '-'))  -- -43
-print(table.reduce(list, '*'))  -- 362880
-print(table.reduce(list, '/'))  -- 2.7557319223986e-06
-print(table.reduce(list, '//')) -- 0
-print(table.reduce(list, '%'))  -- 1
-print(table.reduce(list, '^'))  -- 1.0
+print(table.reduce(list, '+'))  --> 45
+print(table.reduce(list, '-'))  --> -43
+print(table.reduce(list, '*'))  --> 362880
+print(table.reduce(list, '/'))  --> 2.7557319223986e-06
+print(table.reduce(list, '//')) --> 0
+print(table.reduce(list, '%'))  --> 1
+print(table.reduce(list, '^'))  --> 1.0
 ~~~
 
 ####  Table with booleans
@@ -485,13 +534,13 @@ require 'ext.std'
 -- equivalent to { 0, 1, 5, 4.9 }
 local mixedList = { false, true, 5, 4.9 }
 
-print(table.reduce(mixedList, '+'))  -- 10.9
-print(table.reduce(mixedList, '-'))  -- -10.9
-print(table.reduce(mixedList, '*'))  -- 0.0
-print(table.reduce(mixedList, '/'))  -- 0.0
-print(table.reduce(mixedList, '//')) -- 0.0
-print(table.reduce(mixedList, '%'))  -- 0.0
-print(table.reduce(mixedList, '^'))  -- 0.0
+print(table.reduce(mixedList, '+'))  --> 10.9
+print(table.reduce(mixedList, '-'))  --> -10.9
+print(table.reduce(mixedList, '*'))  --> 0.0
+print(table.reduce(mixedList, '/'))  --> 0.0
+print(table.reduce(mixedList, '//')) --> 0.0
+print(table.reduce(mixedList, '%'))  --> 0.0
+print(table.reduce(mixedList, '^'))  --> 0.0
 
 --[[
     This method does not make any changes to table
@@ -512,21 +561,21 @@ require 'ext.std'
 -- It will not be equivalent to number.
 local strList = { 'a', 'b', 'c', 'd' }
 
-print(table.reduce(strList, '+')) -- nan
-print(table.reduce(strList, '-')) -- nan
+print(table.reduce(strList, '+')) --> nan
+print(table.reduce(strList, '-')) --> nan
 
 -- It will not be equivalent to number.
 local numStr = { 'false', 2, 5.0, 3, 'true' }
 
-print(table.reduce(numStr, '+')) -- nan
-print(table.reduce(numStr, '-')) -- nan
+print(table.reduce(numStr, '+')) --> nan
+print(table.reduce(numStr, '-')) --> nan
 
 -- It will be equivalent to number.
 local numStrNum = { '42', 2, 5.0, 3 }
 
-print(table.reduce(numStrNum, '+')) -- 52.0
-print(table.reduce(numStrNum, '-')) -- 32.0
-print(table.reduce(numStrNum, '^')) -- 4.9828603059828e+48
+print(table.reduce(numStrNum, '+')) --> 52.0
+print(table.reduce(numStrNum, '-')) --> 32.0
+print(table.reduce(numStrNum, '^')) --> 4.9828603059828e+48
 ~~~
 
 ####  Nil element
@@ -536,7 +585,7 @@ print(table.reduce(numStrNum, '^')) -- 4.9828603059828e+48
 require 'ext.std'
 
 local nilList = { false, 22.0, nil, 5, 4.9 }
-print(table.reduce(nilList, '+')) -- nil
+print(table.reduce(nilList, '+')) --> nil
 ~~~
 
 ####  Considerations
@@ -568,9 +617,9 @@ require 'ext.std'
 
 local mixedList = { 'A', 'B', 'C', false, true, 2, 56.3, '23' }
 
-print(table.unpack(mixedList)) -- 'A'  'B'  'C'  false  true  2  56.3  '23'
-table.reverse(mixedList)       -- reversing
-print(table.unpack(mixedList)) -- '23'  56.3  2  true  false  'C'  'B'  'A'
+print(table.unpack(mixedList)) --> 'A'  'B'  'C'  false  true  2  56.3  '23'
+table.reverse(mixedList)       --> reversing
+print(table.unpack(mixedList)) --> '23'  56.3  2  true  false  'C'  'B'  'A'
 ~~~
 
 ### Nil element
@@ -581,9 +630,9 @@ require 'ext.std'
 
 local mixedList = { 'A', 'B', 'C', nil, 2, 56.3, '23' }
 
-print(table.unpack(mixedList)) -- 'A'  'B'  'C'  nil  2  56.3  '23'
-table.reverse(mixedList)       -- remains in the same order
-print(table.unpack(mixedList)) -- 'A'  'B'  'C'  nil  2  56.3  '23'
+print(table.unpack(mixedList)) --> 'A'  'B'  'C'  nil  2  56.3  '23'
+table.reverse(mixedList)       --> remains in the same order
+print(table.unpack(mixedList)) --> 'A'  'B'  'C'  nil  2  56.3  '23'
 ~~~
 
 ####  Considerations

@@ -24,17 +24,19 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
+local LUA51 = 'Lua 5.1'
+local UTF8_CHARPATTERN = _VERSION == LUA51 and '[\\0-\127\194-\244][\128-\191]*' or '[\0-\x7F\xC2-\xF4][\x80-\xBF]*'
 local push = table.insert
 local concat = table.concat
-local pack = table.pack
-local unpack = table.unpack
+local pack = _VERSION ~= LUA51 and table.pack or function(...) return { ... } end
+local unpack = _VERSION ~= LUA51 and table.unpack or unpack
 
 local typeError = function(msg) return '\n\n>\tTypeError: ' .. msg .. '\n' end
 
 local function noMagic(s)
-  local SYM <const> = { '(', ')', '.', '%', '+', '-', '*', '?', '[', '^', '$' }
+  local SYM = { '(', ')', '.', '%', '+', '-', '*', '?', '[', '^', '$' }
   local t = {}
-  for e in s:gmatch(utf8.charpattern) do
+  for e in s:gmatch(UTF8_CHARPATTERN) do
     for _, f in pairs(SYM) do e = e == f and '%' .. e or e end
     push(t, e)
   end
@@ -48,7 +50,7 @@ function string.split(str, separator, limit)
   local sp = tostring(separator)
   if sp == '' then
     local spread = {}
-    for e in str:gmatch(utf8.charpattern) do
+    for e in str:gmatch(UTF8_CHARPATTERN) do
       push(spread, e)
     end
     if limit > 0 then return pack(unpack(spread, 1, limit)) end
@@ -56,10 +58,10 @@ function string.split(str, separator, limit)
   end
   local sPtt = noMagic(sp)
   local res = {}
-  str = ' '..str
+  str = ' ' .. str
   for e in str:gmatch('.-' .. sPtt) do
     local k = {}
-    for f in e:gmatch(utf8.charpattern) do
+    for f in e:gmatch(UTF8_CHARPATTERN) do
       push(k, f)
     end
     k = concat(k):gsub(sPtt, '')
@@ -67,7 +69,11 @@ function string.split(str, separator, limit)
     str = str:gsub(noMagic(e), '')
   end
   push(res, str)
-  res[1] = res[1]:sub(2)
+  if _VERSION ~= LUA51 then
+    res[1] = res[1]:sub(2)
+  else
+    res[#res] = res[#res]:sub(2)
+  end
   if limit == 0 then return res end
   return pack(unpack(res, 1, limit))
 end

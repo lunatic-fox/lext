@@ -26,8 +26,8 @@
 
 local push = table.insert
 local remove = table.remove
-local pack = table.pack
-local unpack = table.unpack
+local pack = _VERSION ~= 'Lua 5.1' and table.pack or function(...) return { ... } end
+local unpack = _VERSION ~= 'Lua 5.1' and table.unpack or unpack
 
 local typeError = function(msg) return '\n\n>\tTypeError: ' .. msg .. '\n' end
 
@@ -38,7 +38,7 @@ function table.reduce(list, operator)
     return error(typeError('"list" parameter must be a table!'))
   elseif operator == nil then
     return error('\n\n>\t"operator" parameter must be "+", "-", "*", "/", "//", "%" or "^".\n')
-  elseif  operator ~= '+'
+  elseif operator ~= '+'
       and operator ~= '-'
       and operator ~= '*'
       and operator ~= '/'
@@ -57,6 +57,7 @@ function table.reduce(list, operator)
   local function b(x)
     return x == true and 1 or x == false and 0 or x
   end
+
   local r = t[1]
   local k = pack(unpack(t, 2))
   if operator == '+' then
@@ -68,7 +69,7 @@ function table.reduce(list, operator)
   elseif operator == '/' then
     for _, e in ipairs(k) do r = b(r) / b(e) end
   elseif operator == '//' then
-    for _, e in ipairs(k) do r = b(r) // b(e) end
+    for _, e in ipairs(k) do r = math.floor(b(r) / b(e)) end
   elseif operator == '^' then
     for _, e in ipairs(k) do r = b(r) ^ b(e) end
   elseif operator == '%' then
