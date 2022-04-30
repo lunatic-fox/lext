@@ -270,7 +270,7 @@ print(string.sub())   --> error
   string.split( )
 </h2>
 
-&nbsp; Split a string into substrings using the specified separator and return them as a table.
+&nbsp; Splits a string into substrings using the specified separator and return them as a table.
 
 ####  Syntax
 ~~~lua
