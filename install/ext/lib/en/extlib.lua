@@ -24,7 +24,7 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
----Split a string into substrings using the specified separator and return them as a table.
+---Splits a string into substrings using the specified separator and return them as a table.
 ---@param str string A string to be splitted.
 ---@param separator? string A string that identifies character or characters to use in separating the string. If omitted, a single-element table containing the entire string is returned.
 ---@param limit? number A value used to limit the number of elements returned in the table.
@@ -56,7 +56,7 @@ function string.replace(str, searchValue, replaceValue) end
 ---[Online documentation](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-slice)
 function string.slice(str, i, j) end
 
----Return the accumulated result of all elements in the table `list`.
+---Returns the accumulated result of all elements in the table `list`.
 ---@param list table A table of numbers and/or number-like elements.
 ---##    Examples
 ---    { '8', '.4', 6.3, true, false } => { 8, 0.4, 6.3, 1, 0 }
@@ -68,7 +68,7 @@ function string.slice(str, i, j) end
 ---[Online documentation](https://github.com/joseliojunior/lua-extensions/tree/main/doc#table-reduce)
 function table.reduce(list, operator) end
 
----Reverse the elements order of `list` table. This method mutates `list` and returns a reference to the same `list` table.
+---Reverses the elements order of `list` table. This method mutates `list` and returns a reference to the same `list` table.
 ---@param list table A table of elements.
 ---##    Examples
 ---    { '8', '.4', 6.3, true, false } => { false, true, 6.3, '.4', '8' }
