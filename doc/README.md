@@ -451,7 +451,7 @@ require 'ext.table'  --> table module only
 <h2 name="table-reduce">
   table.reduce( )
 </h2>
-&nbsp; Return the accumulated result of all elements in the table.
+&nbsp; Returns the accumulated result of all elements in the table.
 
 ####  Syntax
 ~~~lua
