@@ -56,6 +56,24 @@ function string.replace(str, searchValue, replaceValue) end
 ---[Online documentation](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-slice)
 function string.slice(str, i, j) end
 
+---Returns a copy of this string with all letters in lower case.
+---@param str string
+---@nodiscard
+function string.toLowerCase(str) end
+
+---Returns a copy of this string with all letters in upper case.
+---@param str string
+---@nodiscard
+function string.toUpperCase(str) end
+
+---Returns a section of a table.
+---@param list table
+---@param i? number The index to the beginning of the specified portion of table.
+---@param j? number The end to the beginning of the specified portion of table. If this value is not specified, the element continues to the end of table.
+---@return table
+---@nodiscard
+function table.slice(list, i, j) end
+
 ---Return the accumulated result of all elements in the table `list`.
 ---@param list table A table of numbers and/or number-like elements.
 ---##    Examples

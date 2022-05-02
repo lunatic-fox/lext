@@ -24,16 +24,27 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-local push = table.insert
-local remove = table.remove
-local pack = function(...) return { ... } end
-local unpack = _VERSION ~= 'Lua 5.1' and table.unpack or unpack
+require 'ext.dependencies.short-methods'
+require 'ext.dependencies.errors'
 
-local typeError = function(msg) return '\n\n>\tTypeError: ' .. msg .. '\n' end
+function table.slice(list, i, j)
+  if type(list) ~= 'table' then
+    return error(typeError('"list" parameter can not be empty and must be a table!'))
+  end
+  i = (i == nil or i == 0) and 1 or i
+  j = (j == nil or j == 0) and #list or j
+  if i < 0 then
+    i = #list + i + 1
+  elseif i < 0 and j < 0 then
+    i = #list + i + 1
+    j = #list + j + 1
+  end
+  return pack(unpack(list, i, j))
+end
 
 function table.reduce(list, operator)
   if type(list) == 'table' and #list <= 0 then
-    return error('\n\n>\t"list" parameter can not be empty!\n')
+    return error(typeError('"list" parameter can not be empty and must be a table!'))
   elseif type(list) ~= 'table' then
     return error(typeError('"list" parameter must be a table!'))
   elseif operator == nil then

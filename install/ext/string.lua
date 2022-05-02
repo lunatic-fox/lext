@@ -24,22 +24,17 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-local UTF8_CHARPATTERN = '[\\0-\127\194-\244][\128-\191]*'
-local push = table.insert
-local concat = table.concat
-local pack = function(...) return { ... } end
-local unpack = _VERSION ~= 'Lua 5.1' and table.unpack or unpack
-
-local typeError = function(msg) return '\n\n>\tTypeError: ' .. msg .. '\n' end
+require 'ext.dependencies.short-methods'
+require 'ext.dependencies.errors'
+require 'ext.dependencies.chars'
 
 local function noMagic(s)
-  local SYM = { '(', ')', '.', '%', '+', '-', '*', '?', '[', '^', '$' }
   local t = {}
   for e in s:gmatch(UTF8_CHARPATTERN) do
-    for _, f in pairs(SYM) do e = e == f and '%' .. e or e end
+    for _, f in pairs(MAGIC_CHARS) do e = e == f and '%' .. e or e end
     push(t, e)
   end
-  return concat(t)
+  return join(t)
 end
 
 function string.split(str, separator, limit)
@@ -62,7 +57,7 @@ function string.split(str, separator, limit)
     for f in e:gmatch(UTF8_CHARPATTERN) do
       push(k, f)
     end
-    k = concat(k):gsub(sPtt, '')
+    k = join(k):gsub(sPtt, '')
     push(res, k)
     str = str:gsub(noMagic(e), '')
   end
@@ -79,7 +74,7 @@ function string.replace(str, searchValue, replaceValue)
   searchValue = tostring(searchValue)
   replaceValue = tostring(replaceValue)
   str = str:split(searchValue)
-  str = concat(str, replaceValue)
+  str = join(str, replaceValue)
   return str
 end
 
@@ -87,12 +82,45 @@ function string.slice(str, i, j)
   if type(str) ~= 'string' then
     return error(typeError('"str" parameter must be a string!'))
   end
-  if i == 0 or i == nil then return str end
+  i = (i == nil or i == 0) and 1 or i
+  j = (j == nil or j == 0) and #str or j
   str = str:split('')
   if i < 0 then
     i = #str + i + 1
-    j = #str
+  elseif i < 0 and j < 0 then
+    i = #str + i + 1
+    j = #str + j + 1
   end
-  str = concat(str, '', i, j)
+  str = join(str, '', i, j)
   return str
+end
+
+function string.toUpperCase(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeError('"str" parameter must be a string!'))
+  end
+  str = str:split('')
+  for i, e in ipairs(str) do
+    for j = 1, #CHARS, 2 do
+      if e == CHARS[j + 1] then
+        str[i] = CHARS[j]
+      end
+    end
+  end
+  return join(str)
+end
+
+function string.toLowerCase(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeError('"str" parameter must be a string!'))
+  end
+  str = str:split('')
+  for i, e in ipairs(str) do
+    for j = 1, #CHARS, 2 do
+      if e == CHARS[j] then
+        str[i] = CHARS[j + 1]
+      end
+    end
+  end
+  return join(str)
 end

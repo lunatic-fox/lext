@@ -56,6 +56,24 @@ function string.replace(str, searchValue, replaceValue) end
 ---[Documentação online em inglês](https://github.com/joseliojunior/lua-extensions/tree/main/doc#string-slice)
 function string.slice(str, i, j) end
 
+---Retorna uma cópia desta string com todas as letras minúsculas.
+---@param str string
+---@nodiscard
+function string.toLowerCase(str) end
+
+---Retorna uma cópia desta string com todas as letras maiúsculas.
+---@param str string
+---@nodiscard
+function string.toUpperCase(str) end
+
+---Retorna uma seção da tabela.
+---@param list table
+---@param i? number O índice para o começo de uma porção especificada da tabela.
+---@param j? number O índice para o fim de uma porção especificada da tabela. Se não especificado o elemento continua até o final da tabela.
+---@return table
+---@nodiscard
+function table.slice(list, i, j) end
+
 ---Retorna o resultado acumulado de todos os elementos da tabela `list`.
 ---@param list table Uma tabela de números e/ou elementos semelhantes a números.
 ---##    Examplos

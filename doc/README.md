@@ -12,7 +12,10 @@
   * [slice( )](#string-slice)
   * [split( )](#string-split)
   * [replace( )](#string-replace)
+  * [toLowerCase( )](#string-tolowercase)
+  * [toUpperCase( )](#string-touppercase)
 * [table](#table)
+  * [slice( )](#table-slice)
   * [reduce( )](#table-reduce)
   * [reverse( )](#table-reverse)
 
@@ -182,9 +185,9 @@ m, a, ç, ã
 
 ---
 
-<h2 name="string" align="center">
+<h1 name="string" align="center">
   string
-</h2>
+</h1>
 
 ###  Require module
 ~~~lua
@@ -436,11 +439,79 @@ print(text:gsub('ok', false))    --> error
 [**back to top ▲**](#top)
 </div>
 
+<h2 name="string-tolowercase">
+  string.toLowerCase( )
+</h2>
+
+&nbsp; Returns a copy of this string with all letters in lower case.
+
+####  Syntax
+~~~lua
+string.toLowerCase(str)
+~~~
+
+####  Parameters
+`str` *&lt;string&gt;* - The string to be in lower case.
+
+### Usage
+
+#### Comparison to `string.lower()`
+~~~lua
+require 'ext.std'
+
+local str = 'MAÇÃ, APPLE OR ЯБЛОКО'
+
+print(str:toLowerCase()) --> maçã, apple or яблоко
+print(str:lower())       --> maÇÃ, apple or ЯБЛОКО
+~~~
+
+#### Considerations
+&nbsp; This method is equivalent to `string.lower( )` of `Lua`, but with support to UTF8 characters.
+
+<div align="right">
+
+[**back to top ▲**](#top)
+</div>
+
+<h2 name="string-touppercase">
+  string.toUpperCase( )
+</h2>
+
+&nbsp; Returns a copy of this string with all letters in upper case.
+
+####  Syntax
+~~~lua
+string.toUpperCase(str)
+~~~
+
+####  Parameters
+`str` *&lt;string&gt;* - The string to be in upper case.
+
+### Usage
+
+#### Comparison to `string.upper()`
+~~~lua
+require 'ext.std'
+
+local str = 'maçã, apple or яблоко'
+
+print(str:toUpperCase()) --> MAÇÃ, APPLE OR ЯБЛОКО
+print(str:upper())       --> MAçã, APPLE OR яблоко
+~~~
+
+#### Considerations
+&nbsp; This method is equivalent to `string.upper( )` of `Lua`, but with support to UTF8 characters.
+
+<div align="right">
+
+[**back to top ▲**](#top)
+</div>
+
 ---
 
-<h2 name="table" align="center">
+<h1 name="table" align="center">
   table
-</h2>
+</h1>
 
 ###  Require module
 ~~~lua
@@ -451,6 +522,7 @@ require 'ext.table'  --> table module only
 <h2 name="table-reduce">
   table.reduce( )
 </h2>
+
 &nbsp; Return the accumulated result of all elements in the table.
 
 ####  Syntax
@@ -611,7 +683,7 @@ table.reverse(list)
 
 ### Usage
 
-#### Regular use
+#### Regular usage
 ~~~lua
 require 'ext.std'
 
@@ -642,6 +714,53 @@ print(table.unpack(mixedList)) --> 'A'  'B'  'C'  nil  2  56.3  '23'
 
 [**back to top ▲**](#top)
 </div>
+
+<h2 name="table-slice">
+  table.slice( )
+</h2>
+
+&nbsp; Returns a section of a table.
+
+####  Syntax
+~~~lua
+table.slice(list[, i [, j]])
+~~~
+
+####  Parameters
+`list` *&lt;table&gt;* - The table to be sliced.
+
+`i` *&lt;number?&gt;* - The index to the beginning of the specified portion of table.
+
+`j` *&lt;number?&gt;* - The end to the beginning of the specified portion of table. If this value is not specified, the element continues to the end of table.
+
+### Usage
+
+#### Regular usage
+
+~~~lua
+require 'ext.std'
+
+local t = { 'text', 4, 5.6, nil, false, true }
+local tr
+
+tr = table.slice(t)
+print(table.unpack(tr))  --> text 4 5.6 nil false true
+
+tr = table.slice(t, 2)
+print(table.unpack(tr))  --> 4 5.6 nil false true
+
+tr = table.slice(t, 3, 5)
+print(table.unpack(tr))  --> 5.6 nil false
+
+tr = table.slice(t, -2)
+print(table.unpack(tr))  --> false true
+
+tr = table.slice()
+print(table.unpack(tr))  --> type error
+~~~
+
+#### Considerations
+&nbsp; This table method was based on `Array.slice( )` of `JavaScript`.
 
 ---
 <div align="center">
