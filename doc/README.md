@@ -273,7 +273,7 @@ print(string.sub())   --> error
   string.split( )
 </h2>
 
-&nbsp; Split a string into substrings using the specified separator and return them as a table.
+&nbsp; Splits a string into substrings using the specified separator and return them as a table.
 
 ####  Syntax
 ~~~lua
@@ -523,7 +523,7 @@ require 'ext.table'  --> table module only
   table.reduce( )
 </h2>
 
-&nbsp; Return the accumulated result of all elements in the table.
+&nbsp; Returns the accumulated result of all elements in the table.
 
 ####  Syntax
 ~~~lua

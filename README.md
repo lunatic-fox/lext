@@ -3,15 +3,24 @@
 [//]: # (license: MIT)
 # Lua extensions &nbsp;![](https://gh-tags.vercel.app/api?lang=lua)
 
-## Current extensions list
-* [**string.slice**](./doc/README.md#string-slice)
-* [**string.split**](./doc/README.md#string-split)
-* [**string.replace**](./doc/README.md#string-replace)
-* [**table.reduce**](./doc/README.md#table-reduce)
-* [**table.reverse**](./doc/README.md#table-reverse)
-
 ## [Documentation](./doc/README.md)
 &nbsp;&nbsp;Here you can find about installation of lua extension modules on VS Code and usage of each method.
+
+<h3 align="center">Current extensions list</h3>
+
+<div align="center">
+  
+|Extention method|Description|
+|:---:|:---:|
+|[**string.slice**](./doc/README.md#string-slice)|*Returns a section of a string.*|
+|[**string.split**](./doc/README.md#string-split)|*Splits a string into substrings using the specified separator and return them as a table.*|
+|[**string.replace**](./doc/README.md#string-replace)|*Replaces text in a string, using a search string.*|
+|[**table.reduce**](./doc/README.md#table-reduce)|*Returns the accumulated result of all elements in the table.*|
+|[**table.reverse**](./doc/README.md#table-reverse)|*This method mutates the table received and returns a reversed version of the same table.*|
+
+</div>
+
+
 
 ## [Donation](https://github.com/joseliojunior/gh-tags/tree/main/docs/donation)
 &nbsp;&nbsp;If you like this project and want to collaborate, feel free to check the donation page below.
