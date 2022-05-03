@@ -15,6 +15,9 @@
 |[**string.slice**](./doc/README.md#string-slice)|*Returns a section of a string.*|
 |[**string.split**](./doc/README.md#string-split)|*Splits a string into substrings using the specified separator and return them as a table.*|
 |[**string.replace**](./doc/README.md#string-replace)|*Replaces text in a string, using a search string.*|
+|[**string.toLowerCase**](./doc/README.md#string-tolowercase)|*Returns a copy of this string with all letters in lower case.*|
+|[**string.toUpperCase**](./doc/README.md#string-touppercase)|*Returns a copy of this string with all letters in upper case.*|
+|[**table.slice**](./doc/README.md#table-slice)|*Returns a section of a table.*|
 |[**table.reduce**](./doc/README.md#table-reduce)|*Returns the accumulated result of all elements in the table.*|
 |[**table.reverse**](./doc/README.md#table-reverse)|*This method mutates the table received and returns a reversed version of the same table.*|
 
