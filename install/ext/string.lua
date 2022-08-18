@@ -68,7 +68,7 @@ end
 
 function string.replace(str, searchValue, replaceValue)
   if str == nil or type(str) ~= 'string' then
-    return error(typeError('"str" parameter must be a string!'))
+    return error(err.NOT_STRING)
   end
   if searchValue == nil or replaceValue == nil then return str end
   searchValue = tostring(searchValue)
@@ -80,7 +80,7 @@ end
 
 function string.slice(str, i, j)
   if type(str) ~= 'string' then
-    return error(typeError('"str" parameter must be a string!'))
+    return error(err.NOT_STRING)
   end
   i = (i == nil or i == 0) and 1 or i
   j = (j == nil or j == 0) and #str or j
@@ -97,7 +97,7 @@ end
 
 function string.toUpperCase(str)
   if str == nil or type(str) ~= 'string' then
-    return error(typeError('"str" parameter must be a string!'))
+    return error(err.NOT_STRING)
   end
   str = str:split('')
   for i, e in ipairs(str) do
@@ -112,7 +112,7 @@ end
 
 function string.toLowerCase(str)
   if str == nil or type(str) ~= 'string' then
-    return error(typeError('"str" parameter must be a string!'))
+    return error(err.NOT_STRING)
   end
   str = str:split('')
   for i, e in ipairs(str) do

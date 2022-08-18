@@ -26,10 +26,11 @@
 
 require 'ext.dependencies.short-methods'
 require 'ext.dependencies.errors'
+require 'ext.dependencies.array-funs'
 
 function table.slice(list, i, j)
   if type(list) ~= 'table' then
-    return error(typeError('"list" parameter can not be empty and must be a table!'))
+    return error(err.EMPTY_OR_NOT_TABLE)
   end
   i = (i == nil or i == 0) and 1 or i
   j = (j == nil or j == 0) and #list or j
@@ -44,18 +45,13 @@ end
 
 function table.reduce(list, operator)
   if type(list) == 'table' and #list <= 0 then
-    return error(typeError('"list" parameter can not be empty and must be a table!'))
+    return error(err.EMPTY_OR_NOT_TABLE)
   elseif type(list) ~= 'table' then
-    return error(typeError('"list" parameter must be a table!'))
+    return error(err.NOT_TABLE)
   elseif operator == nil then
-    return error('\n\n>\t"operator" parameter must be "+", "-", "*", "/", "//", "%" or "^".\n')
-  elseif operator ~= '+'
-      and operator ~= '-'
-      and operator ~= '*'
-      and operator ~= '/'
-      and operator ~= '//'
-      and operator ~= '%'
-      and operator ~= '^' then
+    return error(err.WRONG_OPERATOR)
+  elseif array.every({ '+', '-', '*', '/', '//', '%', '^' },
+    function(e) return e ~= operator end) then
     return nil
   end
   local t = list
