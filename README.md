@@ -29,8 +29,8 @@
 &nbsp;&nbsp;If you like this project and want to collaborate, feel free to check the donation page below.
 
 <div align="center">
-  <a href="https://github.com/joseliojunior/gh-tags/tree/main/docs/donation">
-    <img width="120" title="Donation page" src="https://raw.githubusercontent.com/joseliojunior/gh-tags/main/docs/donation/src/jar.png">
+  <a href="https://github.com/sponsors/lunatic-fox">
+    <img width="120" title="Donation page" src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86">
   </a>
 </div>
 
