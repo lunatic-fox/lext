@@ -17,7 +17,7 @@
 ## Install
 
 ### Step 1
-&emsp;Download the [**`install.tar`**](./install/install.tar) file (Lua extensions directory), extract to your `LUA_PATH` (path where Lua is installed).
+&emsp;Download the [**`install.tar`**](https://github.com/lunatic-fox/lua-extensions/raw/develop/install/install.tar) file (Lua extensions directory), extract to your `LUA_PATH` (path where Lua is installed).
 
 &emsp;Or you can also open a terminal in the same path where you downloaded `install.tar` and run the command line below to unzip to your `LUA_PATH`.
 
@@ -75,7 +75,7 @@ print(t) -- 15
 
 ## [Documentation](./docs/README.md)
 ### UTF8 terminal
-&emsp;If your terminal isn't displaying utf8 characters correctly, use the `utf8` option after the filename, just once, this argument triggers the `chcp 65001` command in the console.
+&emsp;If your terminal isn't displaying utf8 characters correctly, use the `utf8` option after the filename, just once. This argument triggers the `chcp 65001` command in the console.
 
 ```lua
 -- heart.lua
