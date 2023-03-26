@@ -1,10 +1,11 @@
---- @author: Josélio Júnior <joseliojrx25@gmail.com>
---- @copyright: Josélio Júnior 2022
---- @license: MIT
+---@diagnostic disable: lowercase-global
+---@author: Lunatic Fox - Josélio Júnior <joseliojrx25@gmail.com>
+---@copyright: Lunatic Fox - Josélio Júnior 2023
+---@license: MIT
 
 -- MIT License
 
--- Copyright (c) 2022 Josélio Júnior
+-- Copyright (c) 2023 Josélio Júnior
 
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -24,5 +25,31 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-require 'ext.string'
-require 'ext.table'
+require 'lua-extensions.string'
+require 'lua-extensions.array'
+
+arg = array{unpack(arg or {})}
+
+local function clear_line() io.write'\27[1A\27[2K' end
+local opt = {'utf8'}
+local cmd = {}
+
+function cmd.unpack_value(str)
+  return str:gsub('.+=(.+)', '%1')
+end
+
+for _, v in ipairs(opt) do
+  if array(arg).filter(function(e) return e == v end)[1] then
+    cmd[v] = true
+  end
+
+  local pair_value = array(arg).filter(function (e) return e:match(v .. '=.+') end)[1]
+  if pair_value then
+    cmd[v] = cmd.unpack_value(pair_value)
+  end
+end
+
+if cmd.utf8 then
+  os.execute'chcp 65001'
+  clear_line()
+end
