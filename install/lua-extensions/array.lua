@@ -1,4 +1,4 @@
----@diagnostic disable: lowercase-global
+---@diagnostic disable: lowercase-global, deprecated
 ---@author: Lunatic Fox - Josélio Júnior <joseliojrx25@gmail.com>
 ---@copyright: Lunatic Fox - Josélio Júnior 2023
 ---@license: MIT
@@ -25,8 +25,13 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-require 'lua-extensions.dependencies.short-methods'
-require 'lua-extensions.dependencies.errors'
+local push = table.insert
+local remove = table.remove
+local join = table.concat
+local unpack = table.unpack or unpack
+local function typeerror(msg)
+  return '\n\n>\tTypeError: ' .. msg .. '\n'
+end
 
 function array(list)
   local r, nil_check = {unpack(list)}, {}
@@ -150,6 +155,15 @@ function array(list)
     end
     return array(t)
   end
+
+  setmetatable(r, {
+    __concat = function (a1, a2)
+      local t = {}
+      for _, v in ipairs(a1) do push(t, v) end
+      for _, v in ipairs(a2) do push(t, v) end
+      return array(t)
+    end
+  })
 
   return r
 end

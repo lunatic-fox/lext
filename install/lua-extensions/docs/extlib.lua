@@ -25,41 +25,15 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
+local join = table.concat
 
-
----Splits a string into substrings using the specified separator and return them as a table.
+---Splits a string into substrings using the specified separator and return them as an `array`.
 ---@param str string A string to be splitted.
 ---@param separator? string A string that identifies the character or characters to use in separating the string. If omitted, a single-element table containing the entire string is returned.
 ---@param limit? number A value used to limit the number of elements returned in the table.
 ---@nodiscard
 ---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#stringsplit)
-function string.split(str, separator, limit)
-  local r = {}
-
-
-  ---Joins the previous generated table into a string. \
-  ---@param separator? string A string that identifies the character or characters to use to join the string. If omitted, a table of elements will be separated by comma.
-  ---@nodiscard
-  ---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#stringsplitjoin)
-  r.join = function(separator) return join(r, separator) end
-
-
-  ---Matches the string item.
-  ---@alias mapfnelement ''
-  ---Matches the item index number.
-  ---@alias mapfnindex number
-  ---Matches the string table itself.
-  ---@alias mapfnpvtab table
-  ---Calls the callback function on each string table item, returning a table with the results. \
-  ---@param callback_fn fun(e?: mapfnelement, i?: mapfnindex, a?: mapfnpvtab): string
-  ---@nodiscard
-  ---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#stringsplitmap)
-  r.map = function(callback_fn) return r end
-
-
-  return r
-end
-
+function string.split(str, separator, limit) return array{} end
 
 
 ---Returns a section of a string.
@@ -97,6 +71,39 @@ function string.touppercase(str) end
 ---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#stringreplace)
 function string.replace(str, search_value, replace_value) end
 
+
+---Removes the leading white space characters from a string.
+---@param str string
+---@return string
+---@nodiscard
+---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#stringtrimstart)
+function string.trimstart(str) end
+
+
+---Removes the trailing white space line terminator characters from a string.
+---@param str string
+---@return string
+---@nodiscard
+---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#stringtrimend)
+function string.trimend(str) end
+
+
+---Removes the leading and trailing white space line terminator characters from a string.
+---@param str string
+---@return string
+---@nodiscard
+---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#stringtrim)
+function string.trim(str) end
+
+
+---Checks if the given string contains a certain substring.
+---If `substr` string exists within the main string returns `true`, otherwise returns `false`.
+---@param str string
+---@param substr string A substring to search for.
+---@return boolean
+---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#stringcontains)\
+---[Original issue by](https://github.com/lunatic-fox/lua-extensions/issues/1) [@Panquesito7](https://github.com/Panquesito7)
+function string.contains(str, substr) end
 
 
 ---Creates a new array.\

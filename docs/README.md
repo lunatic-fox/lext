@@ -2,14 +2,13 @@
 
 + [**string**](#string)
   + [**string:split**](#stringsplit)
-  + [**string:split.join**](#stringsplitjoin)
-  + [**string:split.map**](#stringsplitmap)
   + [**string:slice**](#stringslice)
   + [**string:replace**](#stringreplace)
   + [**string:tolowercase**](#stringtolowercase)
   + [**string:touppercase**](#stringtouppercase)
   + [**string:reverse**](#stringreverse)
 + [**array**](#array)
+  + [**Concatenating an array**](#concatenating-an-array)
   + [**array.slice**](#arrayslice)
   + [**array.join**](#arrayjoin)
   + [**array.filter**](#arrayfilter)
@@ -24,9 +23,7 @@
 #### New powerful string methods to your Lua code!
 ```ts
 string
-  :split(separator: string?, limit: number?): table
-    .join(separator: string?): string
-    .map(callback_fn(e: string?, i: number?, a: table?): string): table
+  :split(separator: string?, limit: number?): array
   :slice(i: number?, j: number?): string
   :replace(search_value: string, replace_value: string): string
   :tolowercase(): string
@@ -38,10 +35,10 @@ string
 
 ### string:split
 ```ts
-string:split(separator: string?, limit: number?): table
+string:split(separator: string?, limit: number?): array
 ```
 
-Splits a string into substrings using the specified separator and return them as a table.
+Splits a string into substrings using the specified separator and return them as an [array](#array).
 
 - `str` - A string to be splitted.
 - `separator` - A string that identifies the character or characters to use in separating the string. If omitted, a single-element table containing the entire string is returned.
@@ -53,7 +50,7 @@ require 'lext'
 local text = 'Hello world!'
 text = text:split' '            -- { 'Hello', 'world!' }
 
-print(table.concat(text, ', ')) -- Hello, world!
+print(text.join', ') -- Hello, world!
 ```
 
 #### *Split text and limit the returned items.*
@@ -62,7 +59,7 @@ require 'lext'
 local text = 'Hello world! Nothing'
 text = text:split(' ', 2)       -- { 'Hello', 'world!' }
 
-print(table.concat(text, ', ')) -- Hello, world!
+print(text.join', ') -- Hello, world!
 ```
 
 #### *Split by text.*
@@ -71,7 +68,7 @@ require 'lext'
 local text = 'Thecut-hereperfectcut-heremoonlight!'
 text = text:split('cut-here')  -- { 'The', 'perfect', 'moonlight!' }
 
-print(table.concat(text, ' ')) -- The perfect moonlight!
+print(text.join' ') -- The perfect moonlight!
 ```
 
 #### *Magic symbols aren't a problem!*
@@ -82,7 +79,7 @@ text = text:split('*%')       --[[
   { '?', '+', 'The%perfect', '[(MOONLIGHT)].', '+^' }
 ]]
 
-print(table.concat(text, ', ')) --[[
+print(text.join', ') --[[
   ?, +, The%perfect, [(MOONLIGHT)]., +^
 ]]
 ```
@@ -93,104 +90,15 @@ require 'lext'
 local text = 'The20perfecttrue20moonlight!'
 text = text:split(20)           -- { 'The', 'perfecttrue', 'moonlight!' }
 
-print(table.concat(text, ', ')) -- The, perfecttrue, moonlight!
+print(text.join', ') -- The, perfecttrue, moonlight!
 
 
 text = table.concat(text, ' ')
 text = text:split(true)         -- { 'The', 'perfect', 'moonlight!' }
 
-print(table.concat(text, ''))   -- The perfect moonlight!
+print(text.join'')   -- The perfect moonlight!
 ```
 
-
-<br/><br/>
-
-
-### string:split.join
-```ts
-string:split(separator: string?, limit: number?): table
-  .join(separator: string?): string
-```
-
-Joins the previous generated table into a string.
-
-- `separator` - A string that identifies the character or characters to use to join the string. If omitted, a table of elements will be separated by comma.
-
-
-#### *Straightforward join instead of `table.concat()`.*
-```lua
-require 'lext'
-local text = 'Hello world!'
-text = text:split' ' -- { 'Hello', 'world!' }
-
-print(text.join', ') -- Hello, world!
-```
-
-
-<br/><br/>
-
-
-
-### string:split.map
-```ts
-string:split(separator: string?, limit: number?): table
-  .map(callback_fn(e: string?, i: number?, a: table?): string): table
-```
-
-Calls the callback function on each string table item, returning a table with the results.
-
-- `e` - Matches the string item.
-- `i` - Matches the item index number.
-- `a` - Matches the string table itself.
-
-#### *If you want to edit your splitted string, here's the method.*
-```lua
-require 'lext'
-local text = 'abcdef'
-
-text = text:split''
-  .map(function (e, i, a)
-    local back_i = (#a + 1) - i
-    return 'element: ' .. e ..
-      ', index: ' .. i ..
-      ', array[' .. back_i .. ']: ' .. a[back_i]
-  end)
-
-print(text.join'\n') --[[
-  element: a, index: 1, array[6]: f
-  element: b, index: 2, array[5]: e
-  element: c, index: 3, array[4]: d
-  element: d, index: 4, array[3]: c
-  element: e, index: 5, array[2]: b
-  element: f, index: 6, array[1]: a
-]]
-```
-
-#### And if you want to split the string even more...
-```lua
-require 'lext'
-local apples = 'apple maçã manzana epel μήλο яблоко りんご 蘋果'
-apples = apples:split' ' --[[ 
-  'apple', 'maçã', manzana, 'epel',
-  'μήλο', 'яблоко', 'りんご', '蘋果'
-]]
-
-apples = apples.map(function (e)
-  local chars = e:split''.join', '
-  return chars
-end)
-
-print(apples.join'\n') --[[ 
-  a, p, p, l, e
-  m, a, ç, ã
-  m, a, n, z, a, n, a
-  e, p, e, l
-  μ, ή, λ, ο
-  я, б, л, о, к, о
-  り, ん, ご
-  蘋, 果
-]]
-```
 
 <br/><br/>
 
@@ -336,6 +244,45 @@ array(list: table)
 </div>
 
 <br/><br/>
+
+### array.join
+```ts
+array(list: table).join(separator: string?): string
+```
+
+Joins the items of the previous array into a string.
+- `separator` - A string used to separate one array element from the next in the resulting string. If omitted, the array elements are separated with a comma.
+
+#### Keep it together.
+```lua
+require 'lext'
+local a = array{'text', 4, 5.6, false, true}.join'/' 
+
+print(a) -- text/4/5.6/false/true
+```
+
+#### Implicit comma.
+```lua
+require 'lext'
+local a = array{'text', 4, 5.6, false, true}.join()
+
+print(a) -- text,4,5.6,false,true
+```
+
+<br/><br/>
+
+### Concatenating an array
+
+#### `array` function is concatenable with another one using `..`, see the example below.
+```lua
+require 'lext'
+local a = array{1, 2, 3} .. array{'a', 'b', 'c'}
+
+print(a.join', ') -- 1, 2, 3, a, b, c
+```
+
+<br/><br/>
+
 
 ### array.join
 ```ts

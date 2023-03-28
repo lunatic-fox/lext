@@ -26,8 +26,8 @@ tar -xf install.tar -C "<LUA_PATH>"
 ```
 
 #### install.tar
-> **SHA256:** *eec0f05c55d5aedf87710069b79da01dc4d765ebdcb1f290aa4080f3223217cc*\
-> **MD5:**  *59209dcc26772ce6f2bc3447a8b793c9*
+> **SHA256:** *253ce657ec1a1678b33c25311f531f8b7671e0f9ffee2ce3abe0e946bf1b7cf2*\
+> **MD5:**  *0b86ef8b9b430135d52971403143a622*
 >
 > #### Content
 > - `lext.lua`
@@ -93,12 +93,6 @@ print 'Coração' -- Cora├º├úo
 ### [string](./docs/README.md#string)
 - [`:split()`](./docs/README.md#stringsplit)\
 *Splits a string into a string table.*
-
-- [`:split().join()`](./docs/README.md#stringsplitjoin)\
-*Joins the string table into a string.*
-
-- [`:split().map()`](./docs/README.md#stringsplitmap)\
-*Modifies each string item into the string table by a callback function.*
 
 - [`:slice()`](./docs/README.md#stringslice)\
 *Splices the string with UTF8 support.*

@@ -1,4 +1,4 @@
----@diagnostic disable: lowercase-global
+---@diagnostic disable: lowercase-global, deprecated
 ---@author: Lunatic Fox - Josélio Júnior <joseliojrx25@gmail.com>
 ---@copyright: Lunatic Fox - Josélio Júnior 2023
 ---@license: MIT
@@ -27,6 +27,8 @@
 
 require 'lua-extensions.string'
 require 'lua-extensions.array'
+
+local unpack = table.unpack or unpack
 
 arg = array{unpack(arg or {})}
 

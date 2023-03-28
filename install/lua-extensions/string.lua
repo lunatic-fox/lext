@@ -1,4 +1,4 @@
----@diagnostic disable: duplicate-set-field, cast-local-type
+---@diagnostic disable: duplicate-set-field, cast-local-type, deprecated
 ---@author: Lunatic Fox - Josélio Júnior <joseliojrx25@gmail.com>
 ---@copyright: Lunatic Fox - Josélio Júnior 2023
 ---@license: MIT
@@ -25,8 +25,14 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-require 'lua-extensions.dependencies.short-methods'
-require 'lua-extensions.dependencies.errors'
+require 'lua-extensions.array'
+local push = table.insert
+local remove = table.remove
+local join = table.concat
+local unpack = table.unpack or unpack
+local function typeerror(msg)
+  return '\n\n>\tTypeError: ' .. msg .. '\n'
+end
 
 local utf8charpattern = '.[\128-\191]*'
 local magicchars = { '(', ')', '.', '%', '+', '-', '*', '?', '[', '^', '$' }
@@ -306,17 +312,7 @@ function string.split(str, separator, limit)
   limit = limit and type(limit) == 'number' and limit or 0
   if limit > 0 then res = {unpack(res, 1, limit)} end
 
-  res.join = function(sep) return join(res, tostring(sep or ',')) end
-
-  local pvres = {unpack(res)}
-  res.map = function(fn)
-    for i = 1, #res do
-      res[i] = tostring(fn(res[i], i, pvres))
-    end
-    return res
-  end
-
-  return res
+  return array(res)
 end
 
 
@@ -393,4 +389,41 @@ function string.reverse(str)
     remove(str, i)
   end
   return str.join''
+end
+
+
+function string.trimstart(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:gsub('^[%s%t%r%n]*(.*)', '%1')
+  return str
+end
+
+
+function string.trimend(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:reverse():trimstart():reverse()
+  return str
+end
+
+
+function string.trim(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:trimstart():trimend()
+  return str
+end
+
+
+function string.contains(str, substr)
+  for i = 1, #str do
+    if str:sub(i, i + #substr - 1) == substr then
+      return true
+    end
+  end
+  return false
 end
