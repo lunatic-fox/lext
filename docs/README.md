@@ -45,7 +45,7 @@ string
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -121,7 +121,7 @@ print(text.join'')   -- The perfect moonlight!
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -154,7 +154,7 @@ print(emoji:slice(2, 2))  -- 🤩
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -186,7 +186,7 @@ print(text)
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -214,7 +214,7 @@ print(apples:tolowercase())
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -242,7 +242,7 @@ print(apples:touppercase())
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -273,7 +273,7 @@ print(text:reverse()) --[[
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -302,7 +302,7 @@ print(emoji:contains'😅') -- false
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -326,7 +326,7 @@ print('<' .. text:trim() .. '>') -- <word>
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -350,7 +350,7 @@ print('<' .. text:trimstart() .. '>') -- <word     >
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -398,7 +398,7 @@ array(list: table)
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 #### `array` function is concatenable with another one using `..`, see the example below.
@@ -416,7 +416,7 @@ print(a.join', ') -- 1, 2, 3, a, b, c
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -448,7 +448,7 @@ print(a) -- text,4,5.6,false,true
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -487,7 +487,7 @@ print(a.join', ') -- true
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -552,7 +552,7 @@ print(a.join'\n') --[[
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -609,7 +609,7 @@ print(a.join', ') -- charmander
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -659,7 +659,7 @@ print(b_arr) -- 2
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
@@ -693,7 +693,7 @@ print(pos.join' < ') --[[
 
 <div align="right">
 
-[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+##### [Back to the top](#documentation)
 </div>
 
 ```ts
