@@ -19,6 +19,7 @@
   + [**array.map**](#arraymap)
   + [**array.reduce**](#arrayreduce)
   + [**array.reverse**](#arrayreverse)
+  + [**array.flat**](#arrayflat)
 
 <hr>
 <br/><br/>
