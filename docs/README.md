@@ -7,6 +7,10 @@
   + [**string:tolowercase**](#stringtolowercase)
   + [**string:touppercase**](#stringtouppercase)
   + [**string:reverse**](#stringreverse)
+  + [**string:contains**](#stringcontains)
+  + [**string:trim**](#stringtrim)
+  + [**string:trimstart**](#stringtrimstart)
+  + [**string:trimend**](#stringtrimend)
 + [**array**](#array)
   + [**Concatenating an array**](#concatenating-an-array)
   + [**array.slice**](#arrayslice)
@@ -29,11 +33,21 @@ string
   :tolowercase(): string
   :touppercase(): string
   :reverse(): string
+  :contains(substr: string): boolean
+  :trim(): string
+  :trimstart(): string
+  :trimend(): string
 ```
 
 <br/><br/>
 
 ### string:split
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 string:split(separator: string?, limit: number?): array
 ```
@@ -104,6 +118,12 @@ print(text.join'')   -- The perfect moonlight!
 
 
 ### string:slice
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 string:slice(i: number?, j: number?): string
 ```
@@ -131,6 +151,12 @@ print(emoji:slice(2, 2))  -- 🤩
 
 
 ### string:replace
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 string:replace(search_value: string, replace_value: string): string
 ```
@@ -157,6 +183,12 @@ print(text)
 
 
 ### string:tolowercase
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 string:tolowercase(): string
 ```
@@ -179,6 +211,12 @@ print(apples:tolowercase())
 
 
 ### string:touppercase
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 string:touppercase(): string
 ```
@@ -201,6 +239,12 @@ print(apples:touppercase())
 
 
 ### string:reverse
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 string:reverse(): string
 ```
@@ -223,6 +267,110 @@ print(text:reverse()) --[[
 ]]
 ```
 
+<br/><br/>
+
+### string:contains
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
+```ts
+string:contains(substr: string): boolean
+```
+
+Checks if the given string contains a certain substring. If `substr` string exists within the main string returns `true`, otherwise returns `false`.
+
+- `substr` - A substring to search for.
+
+[Original issue by](https://github.com/lunatic-fox/lua-extensions/issues/1) [@Panquesito7](https://github.com/Panquesito7)
+
+#### Checking some emojis.
+```lua
+require 'lext'
+local emoji = '😁😑😑😑👏😑😁'
+
+print(emoji:contains'👏') -- true
+print(emoji:contains'😅') -- false
+```
+
+<br/><br/>
+
+
+### string:trim
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
+```ts
+string:trim(): string
+```
+
+Removes the leading and trailing white space line terminator characters from a string.
+
+#### No trailing spaces.
+```lua
+require 'lext'
+local text = '    word     '
+
+print('<' .. text:trim() .. '>') -- <word>
+```
+
+<br/><br/>
+
+
+### string:trimstart
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
+```ts
+string:trimstart(): string
+```
+
+Removes the leading white space characters from a string.
+
+#### Snip spaces at the beginning.
+```lua
+require 'lext'
+local text = '    word     '
+
+print('<' .. text:trimstart() .. '>') -- <word     >
+```
+
+<br/><br/>
+
+
+### string:trimend
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
+```ts
+string:trimend(): string
+```
+
+Removes the trailing white space line terminator characters from a string.
+
+#### Snip spaces at the end.
+```lua
+require 'lext'
+local text = '    word     '
+
+print('<' .. text:trimend() .. '>') -- <    word>
+```
+
+<br/><br/>
+
+
+
 <br/>
 <hr/>
 <br/>
@@ -237,6 +385,7 @@ array(list: table)
   .map(callback_fn(e: string?, i: number?, a: table?): any): table
   .reduce(operator: string): number
   .reverse(): table
+  .flat(depth: number?): table
 ```
 
 <div align="center">
@@ -245,33 +394,12 @@ array(list: table)
 
 <br/><br/>
 
-### array.join
-```ts
-array(list: table).join(separator: string?): string
-```
-
-Joins the items of the previous array into a string.
-- `separator` - A string used to separate one array element from the next in the resulting string. If omitted, the array elements are separated with a comma.
-
-#### Keep it together.
-```lua
-require 'lext'
-local a = array{'text', 4, 5.6, false, true}.join'/' 
-
-print(a) -- text/4/5.6/false/true
-```
-
-#### Implicit comma.
-```lua
-require 'lext'
-local a = array{'text', 4, 5.6, false, true}.join()
-
-print(a) -- text,4,5.6,false,true
-```
-
-<br/><br/>
-
 ### Concatenating an array
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
 
 #### `array` function is concatenable with another one using `..`, see the example below.
 ```lua
@@ -285,6 +413,12 @@ print(a.join', ') -- 1, 2, 3, a, b, c
 
 
 ### array.join
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 array(list: table).join(separator: string?): string
 ```
@@ -311,6 +445,12 @@ print(a) -- text,4,5.6,false,true
 <br/><br/>
 
 ### array.slice
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 array(list: table).slice(i: number?, j: number?): table
 ```
@@ -344,6 +484,12 @@ print(a.join', ') -- true
 
 
 ### array.map
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 array(list: table)
   .map(callback_fn(e: string?, i: number?, a: table?): any): table
@@ -403,6 +549,12 @@ print(a.join'\n') --[[
 
 
 ### array.filter
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 array(list: table)
   .filter(callback_fn(e: string?, i: number?, a: table?): any): table
@@ -454,6 +606,12 @@ print(a.join', ') -- charmander
 
 
 ### array.reduce
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 array(list: table)
   .reduce(operator: '+' | '-' | '*' | '/' | '^' | '%' | '//'): number
@@ -498,6 +656,12 @@ print(b_arr) -- 2
 <br/><br/>
 
 ### array.reverse
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
 ```ts
 array(list: table).reverse(): table
 ```
@@ -520,6 +684,71 @@ pos.reverse()
 
 print(pos.join' < ') --[[
   sixth < fifth < fourth < third < second < first
+]]
+```
+
+<br/><br/>
+
+### array.flat
+
+<div align="right">
+
+[${\scriptsize{\textsf{\textit{\color{aqua}Back to the top}}}}$](#documentation)
+</div>
+
+```ts
+array(list: table).flat(depth: number?): table: table
+```
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+#### Spread surface tables.
+```lua
+require 'lext'
+
+local surface = array{
+  1, 2, 3, { 4, 5, 6 }, 7, 8, 9
+}
+
+print(surface.join', ') --[[
+  1, 2, 3, table: 0000026b6b4a0a20, 7, 8, 9
+]]
+
+surface = surface.flat()
+
+print(surface.join', ') --[[
+  1, 2, 3, 4, 5, 6, 7, 8, 9
+]]
+```
+
+#### Going deeper.
+```lua
+require 'lext'
+
+local deep = array{
+  1, 2, 3, {
+    'a', 'b', 'c', {
+      'x', 'y', 'z', {
+        4, true, false
+      }
+    }
+  }, 0
+}
+
+print(deep.join', ') --[[
+  1, 2, 3, table: 0000013ec51ad910, 0
+]]
+
+print(deep.flat().join', ') --[[
+  1, 2, 3, a, b, c, table: 0000013ec51ad950, 0
+]]
+
+print(deep.flat(2).join', ') --[[
+  1, 2, 3, a, b, c, x, y, z, table: 0000013ec51ad9d0, 0
+]]
+
+print(deep.flat(3).join', ') --[[
+  1, 2, 3, a, b, c, x, y, z, 4, true, false, 0
 ]]
 ```
 

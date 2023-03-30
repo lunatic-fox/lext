@@ -1,4 +1,4 @@
----@diagnostic disable: lowercase-global, deprecated
+---@diagnostic disable: lowercase-global, deprecated, param-type-mismatch
 ---@author: Lunatic Fox - Josélio Júnior <joseliojrx25@gmail.com>
 ---@copyright: Lunatic Fox - Josélio Júnior 2023
 ---@license: MIT
@@ -34,6 +34,12 @@ local function typeerror(msg)
 end
 
 function array(list)
+  if list == nil then
+    return error(
+      typeerror'Array can not be "nil" type.'
+    )
+  end
+
   local r, nil_check = {unpack(list)}, {}
 
   for i = 1, #r do push(nil_check, r[i]) end
@@ -164,6 +170,31 @@ function array(list)
       return array(t)
     end
   })
+
+  function r.flat(depth)
+    depth = depth or 1
+    local t = array{}
+
+    local function fn(ia)
+      local f = array{}
+      for i = 1, #ia do
+        if type(ia[i]) == 'table' then
+          f = f .. array(ia[i])
+        else
+          table.insert(f, ia[i])
+        end
+      end
+      return f
+    end
+
+    t = fn(list)
+
+    if (depth - 1) >= 1 then
+      for _ = 1, depth - 1 do t = fn(t) end
+    end
+
+    return array(t)
+  end
 
   return r
 end

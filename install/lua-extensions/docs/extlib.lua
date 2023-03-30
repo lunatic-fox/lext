@@ -150,7 +150,6 @@ function array(list)
   ---@alias mapfnpvtab table
   ---Calls the callback function on each array item, returning a array with the results. \
   ---@param callback_fn fun(e?: mapfnelement, i?: mapfnindex, a?: mapfnpvtab): any
-  ---@nodiscard
   ---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#arraymap)
   r.map = function(callback_fn) return r end
 
@@ -167,6 +166,12 @@ function array(list)
   ---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#arrayfilter)
   r.filter = function(callback_fn) return r end
 
+
+  ---Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.\
+  ---@param depth? number The maximum recursion depth.
+  ---@nodiscard
+  ---[Online documentation](https://github.com/lunatic-fox/lua-extensions/tree/main/docs/README.md#arrayflat)
+  r.flat = function(depth) return r end
 
   return r
 end

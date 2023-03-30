@@ -19,15 +19,15 @@
 ### Step 1
 &emsp;Download the [**`install.tar`**](https://github.com/lunatic-fox/lua-extensions/raw/develop/install/install.tar) file (Lua extensions directory), extract to your `LUA_PATH` (path where Lua is installed).
 
-&emsp;Or you can also open a terminal in the same path where you downloaded `install.tar` and run the command line below to unzip to your `LUA_PATH`.
+&emsp;Or you can also open a terminal in the same path where you downloaded `install.tar` and run the command line below to unzip to your `<LUA_PATH>`.
 
 ```
 tar -xf install.tar -C "<LUA_PATH>"
 ```
 
 #### install.tar
-> **SHA256:** *253ce657ec1a1678b33c25311f531f8b7671e0f9ffee2ce3abe0e946bf1b7cf2*\
-> **MD5:**  *0b86ef8b9b430135d52971403143a622*
+> **SHA256:** *cb4df36c5d5f86f92cc27d72b8e5b3c4e7fe7b7c8181a1e9d66f5968bef1032f*\
+> **MD5:** *bf6f95cd6d895dc0a5150ec738ad94eb*
 >
 > #### Content
 > - `lext.lua`
@@ -109,6 +109,18 @@ print 'Coração' -- Cora├º├úo
 - [`:reverse()`](./docs/README.md#stringreverse)\
 *Reverses the string with UTF8 support.*
 
+- [`:contains()`](./docs/README.md#stringcontains)\
+*Checks if the given string contains a certain substring.*
+
+- [`:trim()`](./docs/README.md#stringtrim)\
+*Removes the leading and trailing white space line terminator characters from a string.*
+
+- [`:trimstart()`](./docs/README.md#stringtrimstart)\
+*Removes the leading white space characters from a string.*
+
+- [`:trimend()`](./docs/README.md#stringtrimend)\
+*Removes the trailing white space line terminator characters from a string.*
+
 ### [array](./docs/README.md#array)
 - [`.join()`](./docs/README.md#arrayjoin)\
 *Joins the table into a string.*
@@ -127,6 +139,9 @@ print 'Coração' -- Cora├º├úo
 
 - [`.reverse()`](./docs/README.md#arrayreverse)\
 *Reverses the order of the elements in the array.*
+
+- [`.flat()`](./docs/README.md#arrayflat)\
+*Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.*
 
 
 <div align="center">
