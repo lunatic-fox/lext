@@ -1,10 +1,42 @@
---- @author: Josélio Júnior <joseliojrx25@gmail.com>
---- @copyright: Josélio Júnior 2022
---- @license: MIT
+---@diagnostic disable: duplicate-set-field, cast-local-type, deprecated
+---@author: Lunatic Fox - Josélio Júnior <joseliojrx25@gmail.com>
+---@copyright: Lunatic Fox - Josélio Júnior 2023
+---@license: MIT
 
-UTF8_CHARPATTERN = '.[\128-\191]*'
-MAGIC_CHARS = { '(', ')', '.', '%', '+', '-', '*', '?', '[', '^', '$' }
-CHARS = {
+-- MIT License
+
+-- Copyright (c) 2023 Josélio Júnior
+
+-- Permission is hereby granted, free of charge, to any person obtaining a copy
+-- of this software and associated documentation files (the "Software"), to deal
+-- in the Software without restriction, including without limitation the rights
+-- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+-- copies of the Software, and to permit persons to whom the Software is
+-- furnished to do so, subject to the following conditions:
+
+-- The above copyright notice and this permission notice shall be included in all
+-- copies or substantial portions of the Software.
+
+-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+-- SOFTWARE.
+
+require 'lua-extensions.array'
+local push = table.insert
+local remove = table.remove
+local join = table.concat
+local unpack = table.unpack or unpack
+local function typeerror(msg)
+  return '\n\n>\tTypeError: ' .. msg .. '\n'
+end
+
+local utf8charpattern = '.[\128-\191]*'
+local magicchars = { '(', ')', '.', '%', '+', '-', '*', '?', '[', '^', '$' }
+local chars = {
   'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e',
   'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j',
   'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o',
@@ -240,3 +272,158 @@ CHARS = {
   'Ｓ', 'ｓ', 'Ｔ', 'ｔ', 'Ｕ', 'ｕ', 'Ｖ', 'ｖ', 'Ｗ', 'ｗ',
   'Ｘ', 'ｘ', 'Ｙ', 'ｙ', 'Ｚ', 'ｚ'
 }
+
+local function nomagic(s)
+  local t = {}
+  for e in s:gmatch(utf8charpattern) do
+    for _, f in pairs(magicchars) do e = e == f and '%' .. e or e end
+    push(t, e)
+  end
+  return join(t)
+end
+
+
+function string.split(str, separator, limit)
+  if type(str) ~= 'string' then str = tostring(str) end
+
+  local sp = tostring(separator)
+  local res = {}
+
+  if separator == nil then
+    res = {str}
+  elseif sp == '' then
+    for e in str:gmatch(utf8charpattern) do
+      push(res, e)
+    end
+  else
+    local sPtt = nomagic(sp)
+    for e in str:gmatch('.-' .. sPtt) do
+      local k = {}
+      for f in e:gmatch(utf8charpattern) do
+        push(k, f)
+      end
+      k = join(k):gsub(sPtt, '')
+      push(res, k)
+      str = str:gsub(nomagic(e), '')
+    end
+    push(res, str)
+  end
+
+  limit = limit and type(limit) == 'number' and limit or 0
+  if limit > 0 then res = {unpack(res, 1, limit)} end
+
+  return array(res)
+end
+
+
+function string.replace(str, searchValue, replaceValue)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  if searchValue == nil or replaceValue == nil then return str end
+  searchValue = tostring(searchValue)
+  replaceValue = tostring(replaceValue)
+  str = str:split(searchValue)
+  str = join(str, replaceValue)
+  return str
+end
+
+
+function string.slice(str, i, j)
+  if type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:split''
+  i = (i == nil or i == 0) and 1 or i
+  j = (j == nil or j == 0) and #str or j
+  if i < 0 then
+    i = #str + i + 1
+  elseif i < 0 and j < 0 then
+    i = #str + i + 1
+    j = #str + j + 1
+  end
+  str = join(str, '', i, j)
+  return str
+end
+
+
+function string.touppercase(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:split''
+  for i, e in ipairs(str) do
+    for j = 1, #chars, 2 do
+      if e == chars[j + 1] then
+        str[i] = chars[j]
+      end
+    end
+  end
+  return join(str)
+end
+
+
+function string.tolowercase(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:split''
+  for i, e in ipairs(str) do
+    for j = 1, #chars, 2 do
+      if e == chars[j] then
+        str[i] = chars[j + 1]
+      end
+    end
+  end
+  return join(str)
+end
+
+
+function string.reverse(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:split''
+  for i = #str, 1, -1 do
+    push(str, str[i])
+    remove(str, i)
+  end
+  return str.join''
+end
+
+
+function string.trimstart(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:gsub('^[%s%t%r%n]*(.*)', '%1')
+  return str
+end
+
+
+function string.trimend(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:reverse():trimstart():reverse()
+  return str
+end
+
+
+function string.trim(str)
+  if str == nil or type(str) ~= 'string' then
+    return error(typeerror'"str" parameter must be a string!')
+  end
+  str = str:trimstart():trimend()
+  return str
+end
+
+
+function string.contains(str, substr)
+  for i = 1, #str do
+    if str:sub(i, i + #substr - 1) == substr then
+      return true
+    end
+  end
+  return false
+end
